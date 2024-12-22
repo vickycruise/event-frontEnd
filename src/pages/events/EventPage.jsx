@@ -1,37 +1,27 @@
 import React, { useState } from "react";
 import EventCard from "../../components/EventCard/EventCard";
 import { Row, Col, Container } from "react-bootstrap";
-const EventPage = () => {
-  // Mock data for the event cards
-  const eventData = Array.from({ length: 100 }, (_, index) => ({
-    image: `https://via.placeholder.com/150?text=Event+${index + 1}`,
-    name: `Event ${index + 1}`,
-    description: `Description for event ${
-      index + 1
-    }. This is a brief description.`,
-    price: `$${(index + 1) * 10}`,
-    bookLink: `https://www.example.com/book/event${index + 1}`,
-  }));
+import { useGetAllEventsQuery } from "../../redux/api/EventApi";
 
-  // State for the current page
+const EventPage = () => {
+  const { data: events, error, isLoading } = useGetAllEventsQuery();
+  console.log(events);
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
-  // Calculate the index of the first and last items to display
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  // Slice the eventData array to get only the items for the current page
-  const currentItems = eventData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = events?.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Calculate total pages
-  const totalPages = Math.ceil(eventData.length / itemsPerPage);
+  const totalPages = Math.ceil(events?.length / itemsPerPage);
 
-  // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
   return (
     <Container className="mt-5">
       <Row>
