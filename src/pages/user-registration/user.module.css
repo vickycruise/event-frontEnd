@@ -1,0 +1,83 @@
+/* Container for centering the card */
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Card Styles */
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(to right, #ff7e5f 30%, #feb47b);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+
+/* User Icon Container */
+.iconContainer {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Style */
+.cardTitle {
+  margin-top: 50px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+/* Input field container */
+.fieldContainer {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.fieldContainer label {
+  display: block;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.fieldContainer input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.fieldContainer .textDanger {
+  font-size: 12px;
+  color: red;
+}
+
+/* Submit button style */
+.btnSubmit {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff7e5f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btnSubmit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

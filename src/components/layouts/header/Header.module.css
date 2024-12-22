@@ -1,0 +1,56 @@
+/* General Header Styles */
+.header {
+  background: linear-gradient(
+    135deg,
+    #f44336,
+    #ff5722
+  ); /* Elegant gradient background */
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+/* Custom Navbar Styles */
+.customNavbar {
+  background-color: transparent !important; /* Make navbar background transparent */
+  padding: 20px 0; /* More padding for larger navbar */
+  font-family: "Arial", sans-serif; /* Elegant font family */
+}
+
+.navbarBrand {
+  color: #fff !important; /* White text for the brand */
+  font-size: 2rem; /* Larger text for brand */
+  font-weight: bold; /* Bold brand text */
+  letter-spacing: 2px; /* Space between letters for an elegant look */
+  text-transform: uppercase; /* Uppercase brand text */
+}
+
+.navbar-toggler-icon {
+  background-color: #fff; /* White hamburger menu icon */
+}
+
+/* Nav Link Styles */
+.navLink {
+  color: #fff !important; /* White color for nav links */
+  font-size: 1.1rem; /* Larger font size for nav items */
+  font-weight: 500; /* Semi-bold font weight */
+  border-radius: 30px; /* Rounded borders for nav items */
+  padding: 12px 20px; /* Increased padding for a more button-like look */
+  margin: 5px 15px; /* Space between nav items */
+  transition: background-color 0.3s, color 0.3s ease; /* Smooth transitions */
+}
+
+.navLink:hover {
+  color: #fff !important; /* White color on hover */
+  background-color: #ff5722; /* Red background on hover */
+  text-transform: uppercase; /* Uppercase text on hover */
+}
+
+.navLink.active {
+  color: #fff !important; /* White color for active link */
+  background-color: #f44336 !important; /* Deep red for active state */
+  font-weight: bold; /* Bold text for active state */
+  border-radius: 30px; /* Ensure rounded corners for active link */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* Slight shadow for active item */
+}

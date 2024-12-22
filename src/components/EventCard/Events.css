@@ -1,0 +1,9 @@
+#date-con {
+  width: 50px;
+  height: 50px;
+  bottom: -25px; /* Adjust for overlap */
+  right: 15px; /* Position slightly inward */
+  transform: translateY(50%); /* Fine-tune the overlap */
+  z-index: 2;
+  border-radius: 50%;
+}
