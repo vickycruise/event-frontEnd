@@ -2,21 +2,38 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Form as BootstrapForm, Button, Row, Col } from "react-bootstrap";
+import { useCreateEventMutation } from "../../redux/api/EventApi";
+import { toast } from "react-toastify";
 
 const EventCreationForm = () => {
-  const [previewImage, setPreviewImage] = useState(null); // State to hold the preview image URL
 
   // Validation schema
   const validationSchema = Yup.object({
-    eventName: Yup.string().required("Event Name is required"),
-    eventDate: Yup.date().required("Date is required"),
+    title: Yup.string().required("Event Name is required"),
+    statDate: Yup.date().required("Start Date is required"),
+    endDate: Yup.date().required("End Date is required"),
     location: Yup.string().required("Location is required"),
-    capacity: Yup.number().required("Capacity is required"),
     description: Yup.string()
       .min(10, "Description must be at least 10 characters")
       .required("Description is required"),
-    image: Yup.mixed().required("Image is required"),
+    avenueId: Yup.number().required("Avenue ID is required"),
   });
+  const [createEvent] = useCreateEventMutation();
+  const onSubmit = async (values, { setSubmitting, resetForm }) => {
+    // Creating the payload object
+    const payload = {
+      title: values.title,
+      statDate: values.statDate,
+      endDate: values.endDate,
+      location: values.location,
+      description: values.description,
+      avenueId: values.avenueId,
+    };
+
+    await createEvent(payload).unwrap();
+    toast.success("Event created successfully");
+    resetForm();
+  };
 
   return (
     <div
@@ -24,19 +41,19 @@ const EventCreationForm = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f5f5f5",
       }}
     >
       <div
         style={{
           display: "flex",
           width: "80%",
-          height: "85vh",
+          height: "65vh",
           maxWidth: "1000px",
           marginTop: "50px",
           borderRadius: "15px",
           boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)",
           overflow: "hidden",
+          backgroundColor: "#f5f5f5",
         }}
       >
         {/* Left Side Gradient */}
@@ -68,18 +85,15 @@ const EventCreationForm = () => {
           <h2 className="text-center mb-4">Event Registration</h2>
           <Formik
             initialValues={{
-              eventName: "",
-              eventDate: "",
+              title: "",
+              statDate: "",
+              endDate: "",
               location: "",
-              capacity: "",
               description: "",
-              image: null,
+              avenueId: 1, // Default value for Avenue ID
             }}
             validationSchema={validationSchema}
-            onSubmit={(values) => {
-              console.log("Form Data:", values);
-              alert("Event Created Successfully!");
-            }}
+            onSubmit={onSubmit} // Call handleSubmit here
           >
             {({ setFieldValue }) => (
               <Form>
@@ -88,35 +102,17 @@ const EventCreationForm = () => {
                     <BootstrapForm.Group>
                       <BootstrapForm.Label>Event Name</BootstrapForm.Label>
                       <Field
-                        name="eventName"
+                        name="title"
                         className="form-control"
                         placeholder="Enter event name"
                       />
                       <ErrorMessage
-                        name="eventName"
+                        name="title"
                         component="div"
                         className="text-danger"
                       />
                     </BootstrapForm.Group>
                   </Col>
-                  <Col md={6}>
-                    <BootstrapForm.Group>
-                      <BootstrapForm.Label>Event Date</BootstrapForm.Label>
-                      <Field
-                        type="date"
-                        name="eventDate"
-                        className="form-control"
-                      />
-                      <ErrorMessage
-                        name="eventDate"
-                        component="div"
-                        className="text-danger"
-                      />
-                    </BootstrapForm.Group>
-                  </Col>
-                </Row>
-
-                <Row className="mb-3">
                   <Col md={6}>
                     <BootstrapForm.Group>
                       <BootstrapForm.Label>Location</BootstrapForm.Label>
@@ -132,41 +128,34 @@ const EventCreationForm = () => {
                       />
                     </BootstrapForm.Group>
                   </Col>
-                  <Col md={6}>
-                    <BootstrapForm.Group>
-                      <BootstrapForm.Label>Capacity</BootstrapForm.Label>
-                      <Field
-                        name="capacity"
-                        className="form-control"
-                        placeholder="Enter event capacity"
-                      />
-                      <ErrorMessage
-                        name="capacity"
-                        component="div"
-                        className="text-danger"
-                      />
-                    </BootstrapForm.Group>
-                  </Col>
                 </Row>
 
                 <Row className="mb-3">
-                  <Col md={12}>
+                  <Col md={6}>
                     <BootstrapForm.Group>
-                      <BootstrapForm.Label>Event Image</BootstrapForm.Label>
-                      <input
-                        type="file"
-                        name="image"
+                      <BootstrapForm.Label>Start Date</BootstrapForm.Label>
+                      <Field
+                        type="date"
+                        name="statDate"
                         className="form-control"
-                        onChange={(event) => {
-                          const file = event.currentTarget.files[0];
-                          setFieldValue("image", file);
-                          setPreviewImage(
-                            file ? URL.createObjectURL(file) : null
-                          );
-                        }}
                       />
                       <ErrorMessage
-                        name="image"
+                        name="statDate"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </BootstrapForm.Group>
+                  </Col>
+                  <Col md={6}>
+                    <BootstrapForm.Group>
+                      <BootstrapForm.Label>End Date</BootstrapForm.Label>
+                      <Field
+                        type="date"
+                        name="endDate"
+                        className="form-control"
+                      />
+                      <ErrorMessage
+                        name="endDate"
                         component="div"
                         className="text-danger"
                       />
@@ -174,62 +163,24 @@ const EventCreationForm = () => {
                   </Col>
                 </Row>
 
-                {previewImage ? (
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "120px",
-                      height: "120px", // Maintain fixed ratio
-                      border: "1px solid #ccc",
-                      borderRadius: "8px",
-                      overflow: "hidden",
-                      marginBottom: "15px",
-                    }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setPreviewImage(null)}
-                      style={{
-                        position: "absolute",
-                        top: "5px",
-                        right: "5px",
-                        background: "#ff0000",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "50%",
-                        width: "25px",
-                        height: "25px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "pointer",
-                      }}
-                    >
-                      &times;
-                    </button>
-                    <img
-                      src={previewImage}
-                      alt="Preview"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "120px",
-                      height: "120px", // Maintain fixed ratio
-                        
-                      borderRadius: "8px",
-                      overflow: "hidden",
-                      marginBottom: "15px",
-                    }}
-                  ></div>
-                )}
+                {/* Avenue ID Field */}
+                <Row className="mb-3">
+                  <Col md={12}>
+                    <BootstrapForm.Group>
+                      <BootstrapForm.Label>Avenue ID</BootstrapForm.Label>
+                      <Field
+                        name="avenueId"
+                        className="form-control"
+                        placeholder="Enter Avenue ID"
+                      />
+                      <ErrorMessage
+                        name="avenueId"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </BootstrapForm.Group>
+                  </Col>
+                </Row>
 
                 <BootstrapForm.Group className="mb-3">
                   <BootstrapForm.Label>Description</BootstrapForm.Label>

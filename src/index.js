@@ -6,7 +6,7 @@ import "./assets/styles/index.css";
 import { RouterProvider } from "react-router";
 import router from "./routes/router";
 import { UserContextProvider } from "./providers/UserContext";
-
+import "react-toastify/dist/ReactToastify.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

@@ -10,23 +10,24 @@ import DashboardPage from "../pages/dashboard/DashboardPage";
 import EventPage from "../pages/events/EventPage";
 import UserForm from "../pages/user-registration/UserForm";
 import EventCreationPage from "../pages/EventCreation/EventCreationPage";
+import { ToastContainer } from "react-bootstrap";
 
 // Lazy Loaded Components
 const App = lazy(() => import("../App"));
 const MainLayout = lazy(() =>
   import("../components/layouts/main-layout/MainLayout")
 );
-const AuthLayout = lazy(() =>
-  import("../components/layouts/auth-layout/AuthLayout")
-);
-const AdminLayout = lazy(() =>
-  import("../components/layouts/admin-layout/AdminLayout")
-);
 
 export const routes = [
   {
     element: (
       <Suspense fallback={<Progress />}>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000} // Auto close after 5 seconds
+          hideProgressBar={false}
+          newestOnTop={true}
+        />
         <App />
       </Suspense>
     ),
@@ -62,15 +63,23 @@ export const routes = [
         path: adminPaths.root,
         element: (
           <Suspense fallback={<PageLoader />}>
-            <AdminLayout>
+            <MainLayout>
               <Outlet />
-            </AdminLayout>
+            </MainLayout>
           </Suspense>
         ),
         children: [
           {
+            path: adminPaths.events,
+            element: <EventPage />, // You can change this to your admin-specific event page
+          },
+          {
             path: adminPaths.eventCreate,
             element: <EventCreationPage />,
+          },
+          {
+            path: adminPaths.users,
+            element: <UserForm />, // Modify as per your user management requirements
           },
           {
             path: adminPaths.userCreate,
@@ -82,7 +91,7 @@ export const routes = [
       // Authentication routes
       {
         path: rootPaths.authRoot,
-        element: <AuthLayout />,
+        element: <MainLayout />,
         children: [
           {
             path: authRoot.signin,

@@ -30,17 +30,15 @@
   background-color: #fff; /* White hamburger menu icon */
 }
 
-/* Nav Link Styles */
 .navLink {
-  color: #fff !important; /* White color for nav links */
-  font-size: 1.1rem; /* Larger font size for nav items */
-  font-weight: 500; /* Semi-bold font weight */
-  border-radius: 30px; /* Rounded borders for nav items */
-  padding: 12px 20px; /* Increased padding for a more button-like look */
-  margin: 5px 15px; /* Space between nav items */
-  transition: background-color 0.3s, color 0.3s ease; /* Smooth transitions */
+  color: #000;
+  text-decoration: none;
 }
 
+.activeNavLink {
+  font-weight: bold;
+  color: #007bff; /* Change this color to your preference */
+}
 .navLink:hover {
   color: #fff !important; /* White color on hover */
   background-color: #ff5722; /* Red background on hover */
